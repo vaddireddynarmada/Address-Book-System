@@ -1,13 +1,14 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook {
     Scanner sc = new Scanner(System.in);
     int n = sc.nextInt();
-    ArrayList<Contact> addDetails = new ArrayList<Contact>(n);
-
+    List<Contact> addDetails = new ArrayList<>();
+    HashMap<String, AddressBook> addressBooks = new HashMap<>();
     public void addContact() {
-        System.out.println("number of details you want to enter");
         for (int i = 1; i <= n; i++) {
             Contact contact = new Contact();
             System.out.println("Enter First Name");
@@ -30,7 +31,6 @@ public class AddressBook {
         }
         System.out.println(addDetails);
     }
-
     public void editContact() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter name to Edit :  ");
@@ -38,6 +38,7 @@ public class AddressBook {
         for (Contact contact : addDetails) {
             if (contact.getFIRST_NAME().equals(name)) {
                 System.out.println("enter which details wants to edit in contact");
+                System.out.println(" firstName, lastName, address, city, state, phoneNumber, zip, emailid");
                 String editDetails = sc.next().toUpperCase();
                 switch (editDetails) {
                     case "FIRSTNAME":
@@ -73,11 +74,13 @@ public class AddressBook {
                         contact.setEMAIL_ID(sc.next());
                         break;
                 }
+                System.out.println("enter any other details if you want edit");
+                System.out.println(" firstName, lastName, address, city, state, phoneNumber, zip, emailid");
+                editDetails = sc.next().toUpperCase();
                 System.out.println(contact);
             }
         }
     }
-
     public void deleteContact() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter name to delete :  ");
@@ -88,5 +91,25 @@ public class AddressBook {
             }
         }
     }
+    public void addEditDelete(){
+        AddressBook a=new AddressBook();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter add,delete,edit");
+        String name = sc.nextLine().toUpperCase();
+            switch (name) {
+                case "ADD":
+                    a.addContact();
+                    break;
+                case "EDIT":
+                    a.editContact();
+                    break;
+                case "DELETE":
+                    a.deleteContact();
+                    break;
+                case "EXIT":
+                    break;
+            }
+        }
+    }
 
-}
+
