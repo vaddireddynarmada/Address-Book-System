@@ -3,5 +3,6 @@ public class AddressBookMain {
         AddressBook details = new AddressBook();
         details.addContact();
         details.editContact();
+        details.deleteContact();
     }
 }

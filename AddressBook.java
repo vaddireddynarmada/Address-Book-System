@@ -1,9 +1,10 @@
 import java.util.Scanner;
 
 public class AddressBook {
-    Scanner sc = new Scanner(System.in);
-    int noOfDetails = sc.nextInt();
-    Contact[] contactArr = new Contact[noOfDetails];
+    static Scanner sc = new Scanner(System.in);
+    static int noOfDetails = sc.nextInt();
+    static Contact[] contactArr = new Contact[noOfDetails];
+
     public void addContact() {
         System.out.println("Enter number of details to be added");
         for (int i = 0; i < noOfDetails; i++) {
@@ -79,5 +80,18 @@ public class AddressBook {
             }
         }
     }
-}
 
+    public void deleteContact() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter name to Edit :  ");
+        String name = sc.nextLine();
+        String delete;
+        for (int i = 0; i < contactArr.length; i++) {
+            if (name.equals(contactArr[i].getFIRST_NAME())) {
+                delete = null;
+            } else {
+                System.out.println("name is not present");
+            }
+        }
+    }
+}
