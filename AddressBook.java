@@ -1,14 +1,22 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook {
+    public static final int FIRSTNAME = 1;
+    public static final int LASTNAME = 2;
+    public static final int ADDRESS = 3;
+    public static final int CITY = 4;
+    public static final int STATE = 5;
+    public static final int ZIP = 6;
+    public static final int PHONE_NUMBER = 7;
+    public static final int EMAIL_ID = 8;
     Scanner sc = new Scanner(System.in);
-    int n = sc.nextInt();
     List<Contact> addDetails = new ArrayList<>();
-    HashMap<String, AddressBook> addressBooks = new HashMap<>();
+
     public void addContact() {
+        System.out.println("Enter how many contacts to add");
+        int n = sc.nextInt();
         for (int i = 1; i <= n; i++) {
             Contact contact = new Contact();
             System.out.println("Enter First Name");
@@ -31,6 +39,7 @@ public class AddressBook {
         }
         System.out.println(addDetails);
     }
+
     public void editContact() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter name to Edit :  ");
@@ -38,49 +47,54 @@ public class AddressBook {
         for (Contact contact : addDetails) {
             if (contact.getFIRST_NAME().equals(name)) {
                 System.out.println("enter which details wants to edit in contact");
-                System.out.println(" firstName, lastName, address, city, state, phoneNumber, zip, emailid");
-                String editDetails = sc.next().toUpperCase();
+                System.out.println("1.firstName, 2.lastName, 3.address, 4.city, 5.state, 6.zip, " +
+                        "7.phoneNumber, 8.emailId");
+                int editDetails = sc.nextInt();
                 switch (editDetails) {
-                    case "FIRSTNAME":
+                    case FIRSTNAME:
                         System.out.println("enter firstname");
                         contact.setFIRST_NAME(sc.next());
                         break;
-                    case "LASTNAME":
+                    case LASTNAME:
                         System.out.println("enter lastname");
                         contact.setLAST_NAME(sc.next());
                         break;
-                    case "ADDRESS":
-                        System.out.println("enter firstname");
+                    case ADDRESS:
+                        System.out.println("enter address");
                         contact.setADDRESS(sc.next());
                         break;
-                    case "CITY":
+                    case CITY:
                         System.out.println("enter city");
                         contact.setCITY(sc.next());
                         break;
-                    case "STATE":
+                    case STATE:
                         System.out.println("enter state");
                         contact.setSTATE(sc.next());
                         break;
-                    case "ZIP":
+                    case ZIP:
                         System.out.println("enter zip");
                         contact.setZip(sc.next());
                         break;
-                    case "PHONENUMBER":
+                    case PHONE_NUMBER:
                         System.out.println("enter phoneNumber");
                         contact.setPHONE_NUMBER(sc.next());
                         break;
-                    case "EMAILID":
+                    case EMAIL_ID:
                         System.out.println("enter email-id");
                         contact.setEMAIL_ID(sc.next());
                         break;
                 }
                 System.out.println("enter any other details if you want edit");
-                System.out.println(" firstName, lastName, address, city, state, phoneNumber, zip, emailid");
-                editDetails = sc.next().toUpperCase();
+                System.out.println("1.firstName, 2.lastName, 3.address, 4.city, 5.state, 6.phoneNumber, 7.zip, 8.emailid");
+                editDetails = sc.nextInt();
                 System.out.println(contact);
+            }
+            else{
+                System.out.println("Invalid name");
             }
         }
     }
+
     public void deleteContact() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter name to delete :  ");
@@ -91,25 +105,6 @@ public class AddressBook {
             }
         }
     }
-    public void addEditDelete(){
-        AddressBook a=new AddressBook();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter add,delete,edit");
-        String name = sc.nextLine().toUpperCase();
-            switch (name) {
-                case "ADD":
-                    a.addContact();
-                    break;
-                case "EDIT":
-                    a.editContact();
-                    break;
-                case "DELETE":
-                    a.deleteContact();
-                    break;
-                case "EXIT":
-                    break;
-            }
-        }
-    }
+}
 
 
