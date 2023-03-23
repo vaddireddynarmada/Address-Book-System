@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class AddressBook {
     public static final int FIRSTNAME = 1;
@@ -21,6 +22,13 @@ public class AddressBook {
             Contact contact = new Contact();
             System.out.println("Enter First Name");
             contact.setFIRST_NAME(sc.next());
+            addDetails.stream().forEach(contact1 -> {
+                if (contact.getFIRST_NAME().equals(contact1.getFIRST_NAME())) {
+                    System.out.println("Name already exists");
+                    System.out.println("Enter First Name");
+                    contact.setFIRST_NAME(sc.next());
+                }
+            });
             System.out.println("Enter last Name");
             contact.setLAST_NAME(sc.next());
             System.out.println("Enter Address");
@@ -88,8 +96,7 @@ public class AddressBook {
                 System.out.println("1.firstName, 2.lastName, 3.address, 4.city, 5.state, 6.phoneNumber, 7.zip, 8.emailid");
                 editDetails = sc.nextInt();
                 System.out.println(contact);
-            }
-            else{
+            } else {
                 System.out.println("Invalid name");
             }
         }
@@ -106,5 +113,4 @@ public class AddressBook {
         }
     }
 }
-
 
