@@ -124,5 +124,19 @@ public class AddressBook {
         String state = sc.next();
         addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
     }
+    public void countByCity() {
+        System.out.println("Enter the city Name:");
+        String city = sc.next();
+        long countCity = addDetails.stream().filter(contact -> contact.getCITY().equals(city)).count();
+        System.out.println("Total number of contacts in city : " + countCity);
+        addDetails.stream().filter(contact -> contact.getCITY().equals(city)).forEach(contacts -> System.out.println(contacts));
+    }
+    public void countByState() {
+        System.out.println("Enter the State Name:");
+        String state = sc.next();
+        long countState = addDetails.stream().filter(contact -> contact.getSTATE().equals(state)).count();
+        System.out.println("Total number of contacts in states : " + countState);
+        addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
+    }
 }
 
