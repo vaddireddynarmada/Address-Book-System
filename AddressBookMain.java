@@ -7,7 +7,10 @@ public class AddressBookMain {
     public static final int EDIT_CONTACT = 3;
     public static final int DELETE_CONTACT = 4;
     public static final int DISPLAY_ADDRESS_BOOKS = 5;
-    public static final int EXIT = 6;
+    public static final int SEARCH_CONTACT = 6;
+    public static final int EXIT = 7;
+    public static final int STATE = 1;
+    public static final int CITY = 2;
     HashMap<String, AddressBook> addressBookMap = new HashMap<>();
     Scanner scanner = new Scanner(System.in);
     AddressBook a = new AddressBook();
@@ -20,7 +23,7 @@ public class AddressBookMain {
         while (condition) {
             System.out.println("Enter what you want to perform");
             System.out.println("1.AddNewAddressBook, 2.AddContact, 3.EditContact, 4.DeleteContact," +
-                    " 5.DisplayAllAddressBooks, 6.Exit");
+                    " 5.DisplayAllAddressBooks, 6.searchContacts, 7.Exit");
             int choice = scanner.nextInt();
             switch (choice) {
                 case ADD_NEW_ADDRESS_BOOK:
@@ -37,6 +40,9 @@ public class AddressBookMain {
                     break;
                 case DISPLAY_ADDRESS_BOOKS:
                     addressBookMain.displayAddressBookNames();
+                    break;
+                case SEARCH_CONTACT:
+                    addressBookMain.searchContactStateCity();
                     break;
                 case EXIT:
                     condition = false;
@@ -96,6 +102,24 @@ public class AddressBookMain {
         System.out.println("All address book names");
         for (HashMap.Entry<String, AddressBook> display : addressBookMap.entrySet()) {
             System.out.println(display.getKey());
+        }
+    }
+    public void searchContactStateCity() {
+        System.out.println("Enter the AddressBook Name");
+        String bookName = scanner.next();
+        AddressBook book = addressBookMap.get(bookName);
+        if (book == null) {
+            System.out.println("No Book found with these name");
+        } else {
+            System.out.println("Enter 1.state, 2.city to search ");
+            int searchContactStateCity = scanner.nextInt();
+            switch (searchContactStateCity) {
+                case STATE:
+                    book.searchByState();
+                case CITY:
+                    book.searchByCity();
+
+            }
         }
     }
 }

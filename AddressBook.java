@@ -112,5 +112,17 @@ public class AddressBook {
             }
         }
     }
+
+    public void searchByCity() {
+        System.out.println("Enter city Name:");
+        String city = sc.next();
+        addDetails.stream().filter(contacts -> contacts.getCITY().equals(city)).forEach(contacts -> System.out.println(contacts));
+    }
+
+    public void searchByState() {
+        System.out.println("Enter State Name:");
+        String state = sc.next();
+        addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
+    }
 }
 
