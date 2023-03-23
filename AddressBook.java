@@ -13,6 +13,9 @@ public class AddressBook {
     public static final int ZIP = 6;
     public static final int PHONE_NUMBER = 7;
     public static final int EMAIL_ID = 8;
+    public static final int SORT_ZIP=3;
+    public static final int SORT_CITY=2;
+    public static final int SORT_STATE=1;
     Scanner sc = new Scanner(System.in);
     List<Contact> addDetails = new ArrayList<>();
 
@@ -125,6 +128,7 @@ public class AddressBook {
         String state = sc.next();
         addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
     }
+
     public void countByCity() {
         System.out.println("Enter the city Name:");
         String city = sc.next();
@@ -132,6 +136,7 @@ public class AddressBook {
         System.out.println("Total number of contacts in city : " + countCity);
         addDetails.stream().filter(contact -> contact.getCITY().equals(city)).forEach(contacts -> System.out.println(contacts));
     }
+
     public void countByState() {
         System.out.println("Enter the State Name:");
         String state = sc.next();
@@ -139,8 +144,26 @@ public class AddressBook {
         System.out.println("Total number of contacts in states : " + countState);
         addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
     }
+
     public void sortByName() {
         addDetails.stream().sorted(Comparator.comparing(Contact::getFIRST_NAME)).forEach(System.out::println);
     }
+
+    public void sortByCityStateZip() {
+        System.out.println("Enter 1.state, 2.city, 3.Zip to sort");
+        int sortStateCityZip = sc.nextInt();
+        switch (sortStateCityZip) {
+            case SORT_STATE:
+                addDetails.stream().sorted(Comparator.comparing(Contact::getSTATE)).forEach(System.out::println);
+                break;
+            case SORT_CITY:
+                addDetails.stream().sorted(Comparator.comparing(Contact::getCITY)).forEach(System.out::println);
+                break;
+            case SORT_ZIP:
+                addDetails.stream().sorted(Comparator.comparing(Contact::getZip)).forEach(System.out::println);
+                break;
+        }
+    }
 }
+
 
