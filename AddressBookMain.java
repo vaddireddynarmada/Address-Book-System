@@ -9,7 +9,8 @@ public class AddressBookMain {
     public static final int DISPLAY_ADDRESS_BOOKS = 5;
     public static final int SEARCH_CONTACT = 6;
     public static final int COUNT_CONTACT = 7;
-    public static final int EXIT = 8;
+    public static final int SORT_NAME = 8;
+    public static final int EXIT = 9;
     public static final int STATE = 1;
     public static final int CITY = 2;
     HashMap<String, AddressBook> addressBookMap = new HashMap<>();
@@ -24,7 +25,7 @@ public class AddressBookMain {
         while (condition) {
             System.out.println("Enter what you want to perform");
             System.out.println("1.AddNewAddressBook, 2.AddContact, 3.EditContact, 4.DeleteContact," +
-                    " 5.DisplayAllAddressBooks, 6.searchContacts, 7.countContacts, 8.Exit");
+                    " 5.DisplayAllAddressBooks, 6.searchContacts, 7.countContacts, 8.sortByName, 9.Exit");
             int choice = scanner.nextInt();
             switch (choice) {
                 case ADD_NEW_ADDRESS_BOOK:
@@ -47,6 +48,9 @@ public class AddressBookMain {
                     break;
                 case COUNT_CONTACT:
                     addressBookMain.countContactStateCity();
+                    break;
+                case SORT_NAME:
+                    addressBookMain.sortByName();
                     break;
                 case EXIT:
                     condition = false;
@@ -108,6 +112,7 @@ public class AddressBookMain {
             System.out.println(display.getKey());
         }
     }
+
     public void searchContactStateCity() {
         System.out.println("Enter the AddressBook Name");
         String bookName = scanner.next();
@@ -125,6 +130,7 @@ public class AddressBookMain {
             }
         }
     }
+
     public void countContactStateCity() {
         System.out.println("Enter the AddressBook Name");
         String bookName = scanner.next();
@@ -140,6 +146,17 @@ public class AddressBookMain {
                 case CITY:
                     book.countByCity();
             }
+        }
+    }
+
+    public void sortByName() {
+        System.out.println("Enter the AddressBook Name");
+        String bookName = scanner.next();
+        AddressBook book = addressBookMap.get(bookName);
+        if (book == null) {
+            System.out.println("No Book found with these name");
+        } else {
+            book.sortByName();
         }
     }
 }

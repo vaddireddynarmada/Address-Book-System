@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -137,6 +138,9 @@ public class AddressBook {
         long countState = addDetails.stream().filter(contact -> contact.getSTATE().equals(state)).count();
         System.out.println("Total number of contacts in states : " + countState);
         addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
+    }
+    public void sortByName() {
+        addDetails.stream().sorted(Comparator.comparing(Contact::getFIRST_NAME)).forEach(System.out::println);
     }
 }
 
