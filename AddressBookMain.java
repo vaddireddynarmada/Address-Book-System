@@ -10,8 +10,11 @@ public class AddressBookMain {
     public static final int SEARCH_CONTACT = 6;
     public static final int COUNT_CONTACT = 7;
     public static final int SORT_NAME = 8;
-    public static final int EXIT = 10;
-    public static final int SORT_CITY_STATE_ZIP=9;
+    public static final int SORT_CITY_STATE_ZIP = 9;
+    public static final int WRITE_DATA_FROM_FILE = 10;
+    public static final int READ_DATA_FROM_FILE = 11;
+    //public static final int WRITE_DATA_CSV=11;
+    public static final int EXIT = 12;
     public static final int STATE = 1;
     public static final int CITY = 2;
     HashMap<String, AddressBook> addressBookMap = new HashMap<>();
@@ -21,12 +24,12 @@ public class AddressBookMain {
     public static void main(String[] args) {
         AddressBookMain addressBookMain = new AddressBookMain();
         Scanner scanner = new Scanner(System.in);
-        AddressBook a = new AddressBook();
         boolean condition = true;
         while (condition) {
             System.out.println("Enter what you want to perform");
-            System.out.println("1.AddNewAddressBook, 2.AddContact, 3.EditContact, 4.DeleteContact," +
-                    " 5.DisplayAllAddressBooks, 6.searchContacts, 7.countContacts, 8.sortByName, 9.sortStateCityZip 10.Exit");
+            System.out.println("1.AddNewAddressBook, 2.AddContact, 3.EditContact, 4.DeleteContact, "+"\n" +
+                    "5.DisplayAllAddressBooks, 6.SEARCH_CONTACT, 7.COUNT_CONTACT, 8.sortName, 9.SortCityNameZip, " +"\n" +
+                    "10.writeToAddressBookFile, 11.readDataFromFile, 12.exit");
             int choice = scanner.nextInt();
             switch (choice) {
                 case ADD_NEW_ADDRESS_BOOK:
@@ -56,7 +59,13 @@ public class AddressBookMain {
                 case SORT_CITY_STATE_ZIP:
                     addressBookMain.sortStateCityZip();
                     break;
-                case EXIT:
+                case WRITE_DATA_FROM_FILE:
+                    addressBookMain.writeToAddressBookFile();
+                    break;
+                case READ_DATA_FROM_FILE:
+                    addressBookMain.readDataFromFile();
+                    break;
+                    case EXIT:
                     condition = false;
                     break;
                 default:
@@ -117,6 +126,13 @@ public class AddressBookMain {
         }
     }
 
+    public void displayCity() {
+        System.out.println("All address book names");
+        for (HashMap.Entry<String, AddressBook> display : addressBookMap.entrySet()) {
+            System.out.println(display.getKey());
+        }
+    }
+
     public void searchContactStateCity() {
         System.out.println("Enter the AddressBook Name");
         String bookName = scanner.next();
@@ -130,7 +146,7 @@ public class AddressBookMain {
                 case STATE:
                     book.searchByState();
                 case CITY:
-                    book.searchByCity();
+                   book.searchByCity();
             }
         }
     }
@@ -152,16 +168,17 @@ public class AddressBookMain {
             }
         }
     }
-        public void sortStateCityZip() {
-            System.out.println("Enter the AddressBook Name");
-            String bookName = scanner.next();
-            AddressBook book = addressBookMap.get(bookName);
-            if (book == null) {
-                System.out.println("No Book found with these name");
-            } else {
-                book.sortByCityStateZip();
-            }
+
+    public void sortStateCityZip() {
+        System.out.println("Enter the AddressBook Name");
+        String bookName = scanner.next();
+        AddressBook book = addressBookMap.get(bookName);
+        if (book == null) {
+            System.out.println("No Book found with these name");
+        } else {
+            book.sortByCityStateZip();
         }
+    }
 
     public void sortByName() {
         System.out.println("Enter the AddressBook Name");
@@ -171,6 +188,28 @@ public class AddressBookMain {
             System.out.println("No Book found with these name");
         } else {
             book.sortByName();
+        }
+    }
+
+    public void writeToAddressBookFile() {
+        System.out.println("Enter the AddressBook Name");
+        String bookName = scanner.next();
+        AddressBook book = addressBookMap.get(bookName);
+        if (book == null) {
+            System.out.println("No Book found with these name");
+        } else {
+            book.writeData();
+        }
+    }
+
+    public void readDataFromFile() {
+        System.out.println("Enter the AddressBook Name");
+        String bookName = scanner.next();
+        AddressBook book = addressBookMap.get(bookName);
+        if (book == null) {
+            System.out.println("No Book found with these name");
+        } else {
+            book.readFileData();
         }
     }
 }

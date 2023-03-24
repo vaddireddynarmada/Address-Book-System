@@ -1,8 +1,11 @@
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class AddressBook {
     public static final int FIRSTNAME = 1;
@@ -13,11 +16,12 @@ public class AddressBook {
     public static final int ZIP = 6;
     public static final int PHONE_NUMBER = 7;
     public static final int EMAIL_ID = 8;
-    public static final int SORT_ZIP=3;
-    public static final int SORT_CITY=2;
-    public static final int SORT_STATE=1;
+    public static final int SORT_ZIP = 3;
+    public static final int SORT_CITY = 2;
+    public static final int SORT_STATE = 1;
     Scanner sc = new Scanner(System.in);
     List<Contact> addDetails = new ArrayList<>();
+    List<Contact> addDetail = new ArrayList<>();
 
     public void addContact() {
         System.out.println("Enter how many contacts to add");
@@ -48,6 +52,9 @@ public class AddressBook {
             System.out.println("Enter Email");
             contact.setEMAIL_ID(sc.next());
             addDetails.add(contact);
+            addDetail.add(new Contact(contact.getFIRST_NAME(), contact.getLAST_NAME(),
+                    contact.getADDRESS(), contact.getCITY(),
+                    contact.getSTATE(), contact.getEMAIL_ID(), contact.getZip(), contact.getPHONE_NUMBER()));
         }
         System.out.println(addDetails);
     }
@@ -120,13 +127,13 @@ public class AddressBook {
     public void searchByCity() {
         System.out.println("Enter city Name:");
         String city = sc.next();
-        addDetails.stream().filter(contacts -> contacts.getCITY().equals(city)).forEach(contacts -> System.out.println(contacts));
+        addDetail.stream().filter(contacts -> contacts.getCITY().equals(city)).forEach(contacts -> System.out.println(contacts));
     }
 
     public void searchByState() {
         System.out.println("Enter State Name:");
         String state = sc.next();
-        addDetails.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
+        addDetail.stream().filter(contacts -> contacts.getSTATE().equals(state)).forEach(contacts -> System.out.println(contacts));
     }
 
     public void countByCity() {
@@ -162,6 +169,30 @@ public class AddressBook {
             case SORT_ZIP:
                 addDetails.stream().sorted(Comparator.comparing(Contact::getZip)).forEach(System.out::println);
                 break;
+        }
+    }
+
+    public void writeData() {
+        StringBuffer personBuffer = new StringBuffer();
+        addDetails.forEach(contact -> {
+            String personDataString = contact.toString().concat("\n");
+            personBuffer.append(personDataString);
+
+        });
+        try {
+            Files.write(Paths.get("AddressBook.txt"), personBuffer.toString().getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void readFileData() {
+        try {
+            Files.lines(new File("AddressBook.txt").toPath()).map(String::trim).forEach(System.out::println);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
         }
     }
 }
