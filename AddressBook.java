@@ -1,7 +1,12 @@
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -228,6 +233,19 @@ public class AddressBook {
             ioException.printStackTrace();
         }
     }
-}
 
+    public void writeJsonFile() {
+        try {
+            FileWriter fileWriter = new FileWriter("AddressBook.json");
+            Gson gson = new Gson();
+            for (Contact contact : addDetails) {
+                String json = gson.toJson(contact);
+                fileWriter.write(json);
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
 

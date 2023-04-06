@@ -15,10 +15,12 @@ public class AddressBookMain {
     public static final int WRITE_DATA_CSV=11;
     public static final int READ_DATA_CSV=12;
     private static final int WRITE_DATA_JSON = 13;
-    public static final int EXIT = 14;
+    private static final int SORT_STATE_CITY = 15;
+    private static final int READ_DATA_JSON = 14;
+    public static final int EXIT = 16;
     public static final int STATE = 1;
     public static final int CITY = 2;
-    private static final int SORT_STATE_CITY = 15;
+
 
 
     HashMap<String, AddressBook> addressBookMap = new HashMap<>();
@@ -73,6 +75,12 @@ public class AddressBookMain {
                     break;
                 case READ_DATA_CSV:
                     addressBookMain.readCsvFile();
+                    break;
+                case WRITE_DATA_JSON:
+                    addressBookMain.writeJsonFile();
+                    break;
+                case READ_DATA_JSON:
+                    addressBookMain.readJsonFile();
                     break;
                 case EXIT:
                     condition = false;
@@ -239,6 +247,16 @@ public class AddressBookMain {
             System.out.println("No Book found with these name");
         } else {
             book.readCsvFile();
+        }
+    }
+    public void writeJsonFile() {
+        System.out.println("Enter the AddressBook Name");
+        String bookName = scanner.next();
+        AddressBook book = addressBookMap.get(bookName);
+        if (book == null) {
+            System.out.println("No Book found with these name");
+        } else {
+            book.writeJsonFile();
         }
     }
 }
