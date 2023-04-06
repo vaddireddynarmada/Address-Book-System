@@ -1,4 +1,7 @@
-public class Contact {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Contact implements Serializable {
     private String FIRST_NAME;
     private String LAST_NAME;
     private String ADDRESS;
@@ -98,5 +101,12 @@ public class Contact {
                 ", PHONE_NUMBER='" + PHONE_NUMBER + '\'' +
                 ", EMAIL_ID='" + EMAIL_ID + '\'' +
                 '}';
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(FIRST_NAME, contact.FIRST_NAME);
     }
 }

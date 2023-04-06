@@ -1,7 +1,11 @@
-import java.io.File;
-import java.io.IOException;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+
+import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +23,7 @@ public class AddressBook {
     public static final int SORT_ZIP = 3;
     public static final int SORT_CITY = 2;
     public static final int SORT_STATE = 1;
+    public static final int EXIT = 9;
     Scanner sc = new Scanner(System.in);
     List<Contact> addDetails = new ArrayList<>();
     List<Contact> addDetail = new ArrayList<>();
@@ -63,52 +68,53 @@ public class AddressBook {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter name to Edit :  ");
         String name = sc.nextLine();
-        for (Contact contact : addDetails) {
-            if (contact.getFIRST_NAME().equals(name)) {
-                System.out.println("enter which details wants to edit in contact");
-                System.out.println("1.firstName, 2.lastName, 3.address, 4.city, 5.state, 6.zip, " +
-                        "7.phoneNumber, 8.emailId");
-                int editDetails = sc.nextInt();
-                switch (editDetails) {
-                    case FIRSTNAME:
-                        System.out.println("enter firstname");
-                        contact.setFIRST_NAME(sc.next());
-                        break;
-                    case LASTNAME:
-                        System.out.println("enter lastname");
-                        contact.setLAST_NAME(sc.next());
-                        break;
-                    case ADDRESS:
-                        System.out.println("enter address");
-                        contact.setADDRESS(sc.next());
-                        break;
-                    case CITY:
-                        System.out.println("enter city");
-                        contact.setCITY(sc.next());
-                        break;
-                    case STATE:
-                        System.out.println("enter state");
-                        contact.setSTATE(sc.next());
-                        break;
-                    case ZIP:
-                        System.out.println("enter zip");
-                        contact.setZip(sc.next());
-                        break;
-                    case PHONE_NUMBER:
-                        System.out.println("enter phoneNumber");
-                        contact.setPHONE_NUMBER(sc.next());
-                        break;
-                    case EMAIL_ID:
-                        System.out.println("enter email-id");
-                        contact.setEMAIL_ID(sc.next());
-                        break;
+        boolean condition = true;
+        while (condition) {
+            for (Contact contact : addDetails) {
+                if (contact.getFIRST_NAME().equals(name)) {
+                    System.out.println("enter which details wants to edit in contact");
+                    System.out.println("1.firstName, 2.lastName, 3.address, 4.city, 5.state, 6.zip, " +
+                            "7.phoneNumber, 8.emailId, 9.exit");
+                    int editDetails = sc.nextInt();
+                    switch (editDetails) {
+                        case FIRSTNAME:
+                            System.out.println("enter firstname");
+                            contact.setFIRST_NAME(sc.next());
+                            break;
+                        case LASTNAME:
+                            System.out.println("enter lastname");
+                            contact.setLAST_NAME(sc.next());
+                            break;
+                        case ADDRESS:
+                            System.out.println("enter address");
+                            contact.setADDRESS(sc.next());
+                            break;
+                        case CITY:
+                            System.out.println("enter city");
+                            contact.setCITY(sc.next());
+                            break;
+                        case STATE:
+                            System.out.println("enter state");
+                            contact.setSTATE(sc.next());
+                            break;
+                        case ZIP:
+                            System.out.println("enter zip");
+                            contact.setZip(sc.next());
+                            break;
+                        case PHONE_NUMBER:
+                            System.out.println("enter phoneNumber");
+                            contact.setPHONE_NUMBER(sc.next());
+                            break;
+                        case EMAIL_ID:
+                            System.out.println("enter email-id");
+                            contact.setEMAIL_ID(sc.next());
+                            break;
+                        case EXIT:
+                            condition = false;
+                    }
+                } else {
+                    System.out.println("Invalid name");
                 }
-                System.out.println("enter any other details if you want edit");
-                System.out.println("1.firstName, 2.lastName, 3.address, 4.city, 5.state, 6.phoneNumber, 7.zip, 8.emailid");
-                editDetails = sc.nextInt();
-                System.out.println(contact);
-            } else {
-                System.out.println("Invalid name");
             }
         }
     }
@@ -172,27 +178,54 @@ public class AddressBook {
         }
     }
 
-    public void writeData() {
-        StringBuffer personBuffer = new StringBuffer();
-        addDetails.forEach(contact -> {
-            String personDataString = contact.toString().concat("\n");
-            personBuffer.append(personDataString);
-
-        });
+    public void writeFileData() {
         try {
-            Files.write(Paths.get("AddressBook.txt"), personBuffer.toString().getBytes());
+            FileWriter writer = new FileWriter("AddressBook.txt");
+            for (Contact contact : addDetails) {
+                writer.write(String.valueOf(contact));
+            }
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public void readFileData() {
+        try {
+            Files.lines(new File("AddressBook.txt").toPath()).forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void readFileData() {
+
+    public void writeCsvFile() {
         try {
-            Files.lines(new File("AddressBook.txt").toPath()).map(String::trim).forEach(System.out::println);
-
-        } catch (IOException e) {
+            Writer writer = Files.newBufferedWriter(Path.of("AddressBook.csv"));
+            StatefulBeanToCsvBuilder<Contact> contactsStatefulBeanToCsvBuilder = new StatefulBeanToCsvBuilder<>(writer);
+            StatefulBeanToCsv<Contact> contactStatefulBeanToCsv = contactsStatefulBeanToCsvBuilder.build();
+            for (Contact contact : addDetails) {
+                contactStatefulBeanToCsv.write(contact);
+            }
+            writer.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
 
+    public void readCsvFile() {
+        try {
+            Reader reader = Files.newBufferedReader(Path.of("AddressBook.csv"));
+            CSVReader csvReader = new CSVReaderBuilder(reader).build();
+            String[] read;
+            while ((read = csvReader.readNext()) != null) {
+                for (String r : read) {
+                    System.out.println(r);
+                }
+                System.out.println();
+            }
+            reader.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 }
